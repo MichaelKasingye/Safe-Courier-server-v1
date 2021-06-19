@@ -19,7 +19,33 @@ router.get("/parcel",auth, (req, res) => {
     .catch(error=>{
       console.log(error)
       res.status(500).json({
+		  message:`server error`,
         error:error
+      })
+    });
+});
+
+//@route  get api/v1/parcel/:parcelId/
+//@desc   Create a parcel
+//@access Public
+router.get("/parcel/:parcelId/", (req, res) => {
+  const parcelId = req.params.parcelId;
+  parcel.find({"_id":parcelId})
+    .sort({ date: -1 })
+    .then((parcels) => {
+      if (!parcels) {
+        return res.status(404).send(`no such id ${userId}`)
+        .json({
+          message:`No such id ${userId}`
+        })
+      }
+      res.json(parcels)
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(400).send(`Invalid user id ${userId}`)
+      .json({
+        message:`Invalid user id ${userId}`
       })
     });
 });
@@ -55,8 +81,7 @@ router.post("/parcel",auth, (req, res) => {
 // console.log(user);
   const newParcel = new parcel(
     
-    {url:``,
-      user: {
+    {    user: {
         _id: user._id,
         name: user.name,
         email: user.email,
@@ -72,7 +97,7 @@ router.post("/parcel",auth, (req, res) => {
   .catch(error=> {
     console.log(error)
   res.status(500).json({
-    error:error
+    message:`Check your input information`
   })
   });
 });

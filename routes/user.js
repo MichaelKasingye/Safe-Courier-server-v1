@@ -19,7 +19,10 @@ router.post("/auth/signup", async (req, res) => {
       const { name, email, password } = req.body;
       let user = await UserModel.findOne({ email: email });
       if (user)
-        return res.status(400).send(`User with email: ${email} already exists`);
+        return res.status(400).send(`User with email: ${email} already exists`)
+        .json({
+          message:`User with email: ${email} already exists`
+        });
   
       const salt = await bcrypt.genSalt(10);
       user = await new UserModel({
@@ -44,8 +47,10 @@ router.post("/auth/signup", async (req, res) => {
 
 
     } catch (error) {
-      res.status(500).send(`Something went wrong`);
-      console.error(error);
+      res.status(500).send(`Something went wrong`)
+      .json({
+        message:`Invalid User name or email`
+      });
     }
 
  

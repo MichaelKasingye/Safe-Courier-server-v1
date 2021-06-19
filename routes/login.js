@@ -10,9 +10,9 @@ router.post("/auth/login", async (req, res) => {
   if (error) {
     return res.status(400).send(error.details[0].message);
   }
-  const { email, password } = req.body;
+  const { name, password } = req.body;
   try {
-    const user = await UserModel.findOne({ email: email });
+    const user = await UserModel.findOne({ name: name });
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(400).send(`Invalid email or password`);
     }
@@ -33,13 +33,16 @@ router.post("/auth/login", async (req, res) => {
 
   } catch (error) {
     console.error(error);
-    res.status(500).send(`Something is wrong`);
+    res.status(500).send(`Something is wrong`)
+    .json({
+      message:`Invalid User name or email`
+    });
   }
 });
 
 function validation(data) {
   const schema = Joi.object({
-    email: Joi.string().required().email(),
+    name: Joi.string().required(),
     password: Joi.string().required(),
   });
   return schema.validate(data);
