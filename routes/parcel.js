@@ -1,25 +1,41 @@
+const { json } = require("express");
 const express = require("express");
 const router = express.Router();
-const parcel = require("../models/parcel");
-const auth = require("../middleware/auth")
-const {UserModel} = require("../models/user");
-const mongoose  = require("mongoose");
 
+let parcels = [
+   {
+  isCancelled: false,
+  id: "44njkk4ll5kjjj6nnbb",
+  user: {
+      id: "kkk4ll4ll444mmm",
+      name: "Mike",
+      email: "m@gmail.com"
+  },
+  parcelName: "2kg of salt",
+  pickUp: "Ntinda",
+  destination: "Kololo",
+  status: "OnBoarded",
+}, {
+  isCancelled: false,
+  id: "44njkk4dddd5kjjj6nnbb",
+  user: {
+      id: "kkk4lewrerer4ll444mmm",
+      name: "John",
+      email: "j@gmail.com"
+  },
+  parcelName: "2kg of beans",
+  pickUp: "Ntinda",
+  destination: "Kololo",
+  status: "OnBoarded",
+},
+];
 
 //@route  Get api/v1/parcel
 //@desc   Get All parcel
 //@access Public
-router.get("/parcel",auth, (req, res) => {
-   parcel.find()
-  .sort({ date: -1 })
-    .then((parcels) => res.json(parcels))
-    .catch(error=>{
-      console.log(error)
-      res.status(500).json({
-		  message:`server error`,
-        error:error
-      })
-    });
+router.get("/parcel", (req, res) => {
+  console.log(`All Parcels : ${parcels}`);
+  res.send(parcels),json();
 });
 
 //@route  get api/v1/parcel/:parcelId/
@@ -27,73 +43,43 @@ router.get("/parcel",auth, (req, res) => {
 //@access Public
 router.get("/parcel/:parcelId/", (req, res) => {
   const parcelId = req.params.parcelId;
-  parcel.find({"_id":parcelId})
-    .sort({ date: -1 })
-    .then((parcels) => {
-      if (!parcels) {
-        return res.status(404).send(`no such id ${userId}`)
-        .json({
-          message:`No such id ${userId}`
-        })
-      }
-      res.json(parcels)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(400).send(`Invalid user id ${userId}`)
-      .json({
-        message:`Invalid user id ${userId}`
-      })
-    });
+  console.log(parcelId);
+
+  parcels.filter((parcels) => parcels.id === parcelId)
+  .map((parcels)=>{
+    res.send(parcels)
+    console.log(parcels)
+
+  })
 });
 
 
 //@route  Get api/v1/users/<userId>/parcels
 //@desc   Get All parcel
 //@access Public
-router.get("/users/:userId/parcels",auth, (req, res) => {
+router.get("/users/:userId/parcels", (req, res) => {
   const userId = req.params.userId;
-  parcel.find({"user._id":userId})
-    .sort({ date: -1 })
-    .then((parcels) => {
-      if (!parcels) {
-        return res.status(404).send(`no such id ${userId}`)
-      }
-      res.json(parcels)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(400).send(`Invalid user id ${userId}`)
-    });
+  console.log(userId);
+
+  parcels.filter((parcels) => parcels.user.id === userId)
+  .map((parcels)=>{
+    res.send(parcels)
+    console.log(parcels)
+
+  })
 });
 
 
 //@route  POST api/v1/parcel
 //@desc   Create a parcel
 //@access Public
-router.post("/parcel",auth, (req, res) => {
-  const { params, body, user } = req;
-  const newParcel = new parcel(
+router.post("/parcel", (req, res) => {
+  const parcel = req.body;
+
+  parcels.push({...parcel});
     
-    {    user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-      },
-    parcelName: req.body.parcelName,
-    pickUp: req.body.pickUp,
-    destination: req.body.destination,
-    isCancelled: req.body.isCancelled,
-    status: req.body.status,
-  });
-  newParcel.save()
-  .then((parcel) => res.json(parcel))
-  .catch(error=> {
-    console.log(error)
-  res.status(500).json({
-    message:`Check your input information`
-  })
-  });
+    console.log(`parcels [${parcels}] added.`);
+    res.send(parcels)
 });
 
 
@@ -101,58 +87,12 @@ router.post("/parcel",auth, (req, res) => {
 //@desc   Create a parcel
 //@access Public
 router.put("/parcel/:parcelId/cancel", (req, res) => {
-  const id = req.params.parcelId;
-  
-  parcel.updateOne({ _id: id }, {
-      isCancelled: req.body.isCancelled,
-    })
-  .then(() => {
-   parcel.findOne({_id: id })
-   .then(result =>res.send(result))
-  })
-  .catch(err => {
-    console.log(err);
-    res.status(500).json({
-      error: err,
-      message:`server error`
-    });
-  });
-});
+  const itemParcel = parcels.find((parcels) => parcels.id === req.params.parcelId);
+  parcels.isCancelled = req.body.isCancelled;
+  console.log(parcels.isCancelled);
 
-//@route  Put api/v1/parcel
-//@desc   Create a parcel
-//@access Public
-router.put("/parcel/:parcelId/destination",auth, (req, res) => {
-  const id = req.params.parcelId;
-  
-  parcel.updateOne({ _id: id }, {
-    destination: req.body.destination,
-    })
-  .then(() => {
-   parcel.findOne({_id: id })
-   .then(result =>res.send(result))
-  })
-  .catch(err => {
-    console.log(err);
-    res.status(500).json({
-      error: err,
-      message:`server error`
-    });
-  });
+  res.send(`parcelId has been updated to ${req.body.isCancelled}`)
 });
 
 
-//@route  Delete api/parcel
-//@desc   Delete an parcel
-//@access Public
-router.delete("/parcel/:id", (req, res) => {
-  parcel.findById(req.params.id)
-    .then((parcel) => parcel
-    .remove()
-    .then(() => res.json({
-       Success: true,
-       message:`information deleted`
-       })))
-    .catch((err) => res.status(404).json({ Success: false }));
-});
 module.exports = router;
