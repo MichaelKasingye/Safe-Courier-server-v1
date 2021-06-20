@@ -10,3 +10,5 @@ These end points carry out these functions.
 4. PUT- https://safecourierapiv1.herokuapp.com/api/v1/parcels/<parcelId>/cancel - Cancel the specific parcel delivery order
 5. POST-https://safecourierapiv1.herokuapp.com/api/v1/POST /parcels - Create a parcel delivery order
 
+### The complete version of the API with database: https://github.com/MichaelKasingye/Safe-Courier-server
+  ### The hosted link to it is  https://safecourier.herokuapp.com/api/v1/auth/signup 
