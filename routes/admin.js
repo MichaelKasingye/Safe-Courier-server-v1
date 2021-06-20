@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const parcel = require("../models/parcel");
-const auth = require("../middleware/auth")
-const {UserModel} = require("../models/user");
 const {AdminModel} = require("../models/admin");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
@@ -16,10 +14,7 @@ const mongoose  = require("mongoose");
 //@access Public
 router.get("/admin/parcel", (req, res) => {
    parcel.find()
-  // .select("User name _id")
   .sort({ date: -1 })
-  // .populate('user')
-  // .exec()
     .then((parcels) => res.json(parcels))
     .catch(error=>{
       console.log(error)
@@ -137,7 +132,6 @@ router.post("/admin/auth/signup", async (req, res) => {
     .json({
       message:`Invalid User name or email`
     });
-    // console.error(error);
   }
 
 
@@ -178,7 +172,7 @@ router.post("/admin/auth/login", async (req, res) => {
     res.status(500)
     .send(`Something is wrong`)
     .json({
-      message:`Invalid User name or email`
+      message:`Invalid User name or password`
     });
   }
 });

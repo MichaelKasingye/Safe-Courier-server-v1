@@ -11,10 +11,7 @@ const mongoose  = require("mongoose");
 //@access Public
 router.get("/parcel",auth, (req, res) => {
    parcel.find()
-  // .select("User name _id")
   .sort({ date: -1 })
-  // .populate('user')
-  // .exec()
     .then((parcels) => res.json(parcels))
     .catch(error=>{
       console.log(error)
@@ -76,9 +73,6 @@ router.get("/users/:userId/parcels",auth, (req, res) => {
 //@access Public
 router.post("/parcel",auth, (req, res) => {
   const { params, body, user } = req;
-  // user = UserModel.find();
-//  const detailUser = user.populate('user')
-// console.log(user);
   const newParcel = new parcel(
     
     {    user: {

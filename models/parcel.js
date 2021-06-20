@@ -3,11 +3,6 @@ const Schema = mongoose.Schema;
 
 //create Schema
 const ParcelSchema = new Schema({
-    // user:{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "theUser",
-    //     required: true
-    // },
     user: {
         type: new mongoose.Schema({
           name: {

@@ -33,7 +33,6 @@ router.post("/auth/signup", async (req, res) => {
 
       const savedUser = await user.save();
       if (!savedUser) throw Error('Something went wrong saving the user');
-      // res.status(201).send(user);
 
       //TOken
       const token = jwt.sign(user.toJSON(), "privateKey");
