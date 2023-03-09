@@ -2,9 +2,9 @@ name: Deploy to Ubuntu Server
 
 on:
   push:
-    branches: ["develop"]  
+    branches: ["main"]  
   pull_request:
-    branches: ["develop"]
+    branches: ["main"]
 
 jobs:
   deploy:
