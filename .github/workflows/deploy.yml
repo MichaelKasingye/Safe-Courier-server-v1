@@ -2,9 +2,10 @@ name: Deploy to Ubuntu Server
 
 on:
   push:
-    branches: ["main"]  
-  pull_request:
     branches: ["main"]
+    types: [merged]  
+  # pull_request:
+  #   branches: ["main"]
 
 jobs:
   deploy:
