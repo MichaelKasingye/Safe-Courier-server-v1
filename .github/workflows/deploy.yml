@@ -1,0 +1,66 @@
+name: Deploy to Ubuntu Server
+
+on:
+  push:
+    branches: ["develop"]  
+  pull_request:
+    branches: ["develop"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+
+      # - name: Build and test
+      #   run: |
+      #     npm install
+      #     npm test
+
+      # - name: Handle Private SSH keys
+      #   env:
+      #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      #   run: |
+      #     echo "$SSH_PRIVATE_KEY"
+      #     eval "$(ssh-agent -s)"
+      #     # ssh-add - <<< "$SSH_PRIVATE_KEY"
+      #     ssh-add - <<< EOF
+      #     $SSH_PRIVATE_KEY
+      #     EOF
+      #     echo "$SSH_PRIVATE_KEY"
+      #   shell: bash
+
+      # - name: GIT clone
+      #   run: |
+      #     # cd ~/projects/crud
+      #     echo "$SSH_PRIVATE_KEY"
+      #     cd ~/
+      #     echo "Home directory"
+      #     git clone git@github.com:MichaelKasingye/Pius-CRUD-psql-docker-typeorm.git
+      #     echo "git clone"
+      #   shell: bash
+
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          run: echo "$SSH_PRIVATE_KEY"
+          username: ${{ secrets.SERVER_USER }}
+          host: ${{ secrets.REMOTE_HOST }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT }}
+          key: ${{ secrets.SSH_PUBLIC_KEY }}
+          # ssh-key: ${{ secrets.SSH_PUBLIC_KEY }}
+          script: |
+            cd /home/sprintdevs
+            git pull 
+            cd /home/sprintdevs/Safe-Courier-server-v1
+            npm install
+            npm start
+            pm2 restart crud
