@@ -42,6 +42,19 @@ let parcels = [
   destination: "Kololo",
   status: "OnBoarded",
 },
+{
+isCancelled: false,
+id: "4",
+user: {
+   id: "a4",
+   name: "Bob",
+   email: "m@gmail.com"
+},
+parcelName: "2kg of salt",
+pickUp: "Ntinda",
+destination: "Kololo",
+status: "OnBoarded",
+}
 ];
 
 //@route  Get api/v1/parcel
