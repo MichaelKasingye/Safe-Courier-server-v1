@@ -22,7 +22,7 @@ let parcels = [
   user: {
       id: "a2",
       name: "Mike",
-      email: "m@gmail.com"
+      email: "mk@gmail.com"
   },
   parcelName: "2kg of salt",
   pickUp: "Ntinda",
