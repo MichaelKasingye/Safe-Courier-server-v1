@@ -60,7 +60,7 @@ jobs:
           script: |
             cd /home/sprintdevs
             git pull 
-            cd /Safe-Courier-server-v1
+            cd Safe-Courier-server-v1
             npm install
             # npm start
-            pm2 restart
+            pm2 restart index.js
