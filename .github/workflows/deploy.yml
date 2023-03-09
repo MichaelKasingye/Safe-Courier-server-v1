@@ -59,8 +59,8 @@ jobs:
           key: ${{ secrets.SSH_PUBLIC_KEY }}
           script: |
             cd /home/sprintdevs
-            git pull 
             cd Safe-Courier-server-v1
+            git pull 
             npm install
             # npm start
             pm2 restart index.js
