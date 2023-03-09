@@ -64,4 +64,4 @@ jobs:
             echo "cd is complete Safe-Courier"
             npm install
             npm start
-            pm2 restart crud
+            pm2 restart Safe-Courier-server-v1
