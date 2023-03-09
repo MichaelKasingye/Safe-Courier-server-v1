@@ -55,12 +55,13 @@ jobs:
           host: ${{ secrets.REMOTE_HOST }}
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
-          key: ${{ secrets.SSH_PUBLIC_KEY }}
           # ssh-key: ${{ secrets.SSH_PUBLIC_KEY }}
+          key: ${{ secrets.SSH_PUBLIC_KEY }}
           script: |
             cd /home/sprintdevs
             git pull 
             cd /home/sprintdevs/Safe-Courier-server-v1
+            echo "cd is complete Safe-Courier"
             npm install
             npm start
             pm2 restart crud
