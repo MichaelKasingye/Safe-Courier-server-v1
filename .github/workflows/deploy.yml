@@ -63,4 +63,4 @@ jobs:
             cd /Safe-Courier-server-v1
             npm install
             # npm start
-            pm2 restart index.js
+            pm2 restart
