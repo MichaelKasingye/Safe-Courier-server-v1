@@ -11,7 +11,7 @@ let parcels = [
         name: "John Smith",
         email: "JM@gmail.com"
     },
-    parcelName: "4kg of salt",
+    parcelName: "42kg of salt",
     pickUp: "Kansanga",
     destination: "mbuya",
     status: "closed",
