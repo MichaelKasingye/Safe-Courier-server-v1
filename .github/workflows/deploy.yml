@@ -28,8 +28,6 @@ jobs:
           
       - name: Cache on node module
         run: |
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true 
-          echo "::`echo -n ${{ github.token }} | sha256sum | head -c 64`::"
           echo "::set-env name=CACHE_KEY::$(runner.os)-node-${{ hashFiles('**/package-lock.json') }}"
         # run: echo " ${{ env.CACHE_KEY }}"
       - name: Restore cache
