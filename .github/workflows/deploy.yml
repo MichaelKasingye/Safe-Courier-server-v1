@@ -18,7 +18,7 @@ jobs:
     
     env:
       CACHE_RESTORE_KEYS: Linux-node-
-      CACHE_KEY: Linux-node-${{ hashFiles('**/package-lock.json') }}
+      CACHE_KEY: $(runner.os)-node-${{ hashFiles('**/package-lock.json') }}
       
     steps:
       - name: Checkout repository
