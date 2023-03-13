@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: '16.x'
           
-      - name: Cache on node module
+      # - name: Cache on node module
         # run: echo "::set-env name=CACHE_KEY::$(runner.os)-node-${{ hashFiles('**/package-lock.json') }}"
       - name: Restore cache
         uses: actions/cache@v2
