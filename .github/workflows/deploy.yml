@@ -7,8 +7,6 @@ on:
     types: [closed]
     branches:
       - main  
-  # merge:
-  #   branches: ["main"] 
   # pull_request:
   #   branches: ["main"]
 
@@ -27,9 +25,7 @@ jobs:
           node-version: '16.x'
           
       - name: Cache on node module
-        run: |
-          echo "::set-env name=CACHE_KEY::$(runner.os)-node-${{ hashFiles('**/package-lock.json') }}"
-        # run: echo " ${{ env.CACHE_KEY }}"
+        # run: echo "::set-env name=CACHE_KEY::$(runner.os)-node-${{ hashFiles('**/package-lock.json') }}"
       - name: Restore cache
         uses: actions/cache@v2
         env:
@@ -37,8 +33,8 @@ jobs:
         #  CACHE_KEY: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         with:
           path: ~/.npm
-          key: ${{ env.CACHE_KEY }}
-          # key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          # key: ${{ env.CACHE_KEY }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ env.CACHE_RESTORE_KEYS }}
 
 #         uses: actions/cache@v2
@@ -63,7 +59,6 @@ jobs:
           host: ${{ secrets.REMOTE_HOST }}
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
-          # ssh-key: ${{ secrets.SSH_PUBLIC_KEY }}
           key: ${{ secrets.SSH_PUBLIC_KEY }}
           script: |
             cd /home/sprintdevs
