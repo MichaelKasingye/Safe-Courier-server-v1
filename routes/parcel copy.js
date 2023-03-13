@@ -7,14 +7,14 @@ let parcels = [
     isCancelled: false,
     id: "1",
     user: {
-        id: "a1",
+        id: "A21",
         name: "John Smith",
         email: "JM@gmail.com"
     },
     parcelName: "42kg of salt",
     pickUp: "Kansanga",
     destination: "mbuya",
-    status: "closed",
+    status: "openeddsdsd",
   },
    {
   isCancelled: false,
