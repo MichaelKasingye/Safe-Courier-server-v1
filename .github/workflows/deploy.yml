@@ -18,6 +18,7 @@ jobs:
     
     env:
       CACHE_RESTORE_KEYS: Linux-node-
+      CACHE_KEY: Linux-node-${{ hashFiles('**/package-lock.json') }}
       
     steps:
       - name: Checkout repository
@@ -29,7 +30,7 @@ jobs:
           node-version: '16.x'
           
       - name: Cache on node module
-        run: echo "::set-env name=CACHE_KEY::$(runner.os)-node-${{ hashFiles('**/package-lock.json') }}"
+        run: echo " ${{ env.CACHE_KEY }}"
       - name: Restore cache
         uses: actions/cache@v2
         with:
