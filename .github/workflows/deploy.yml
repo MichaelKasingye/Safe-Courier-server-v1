@@ -15,6 +15,10 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    
+    env:
+      CACHE_RESTORE_KEYS: Linux-node-
+      
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -25,12 +29,20 @@ jobs:
           node-version: '16.x'
           
       - name: Cache on node modules
+      - name: Set cache key
+        run: echo "::set-env name=CACHE_KEY::$(runner.os)-node-${{ hashFiles('**/package-lock.json') }}"
+      - name: Restore cache
         uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          key: ${{ env.CACHE_KEY }}
+          restore-keys: ${{ env.CACHE_RESTORE_KEYS }}
+#         uses: actions/cache@v2
+#         with:
+#           path: ~/.npm
+#           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+#           restore-keys: |
+#             ${{ runner.os }}-node-
       - name: Install dependencies
         run: npm ci    
 
@@ -38,30 +50,6 @@ jobs:
       #   run: |
       #     npm install
       #     npm test
-
-      # - name: Handle Private SSH keys
-      #   env:
-      #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      #   run: |
-      #     echo "$SSH_PRIVATE_KEY"
-      #     eval "$(ssh-agent -s)"
-      #     # ssh-add - <<< "$SSH_PRIVATE_KEY"
-      #     ssh-add - <<< EOF
-      #     $SSH_PRIVATE_KEY
-      #     EOF
-      #     echo "$SSH_PRIVATE_KEY"
-      #   shell: bash
-
-      # - name: GIT clone
-      #   run: |
-      #     # cd ~/projects/crud
-      #     echo "$SSH_PRIVATE_KEY"
-      #     cd ~/
-      #     echo "Home directory"
-      #     git clone git@github.com:MichaelKasingye/Pius-CRUD-psql-docker-typeorm.git
-      #     echo "git clone"
-      #   shell: bash
-
 
       - name: Deploy to server
         uses: appleboy/ssh-action@v0.1.8
