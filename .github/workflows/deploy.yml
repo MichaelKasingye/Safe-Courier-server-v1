@@ -16,9 +16,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     
-    env:
-      CACHE_RESTORE_KEYS: Linux-node-
-      # CACHE_KEY: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       
     steps:
       - name: Checkout repository
@@ -33,10 +30,13 @@ jobs:
         run: echo " ${{ env.CACHE_KEY }}"
       - name: Restore cache
         uses: actions/cache@v2
+    env:
+      CACHE_RESTORE_KEYS: Linux-node-
+      CACHE_KEY: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         with:
           path: ~/.npm
-          # key: ${{ env.CACHE_KEY }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ env.CACHE_KEY }}
+          # key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ env.CACHE_RESTORE_KEYS }}
 
 #         uses: actions/cache@v2
