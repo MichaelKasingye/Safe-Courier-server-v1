@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Docker image
-        run: docker build -t my-image:latest .
+        run: docker build -t michaelkasingye/server-courier:latest .
 
       - name: Login to Docker Hub
         uses: docker/login-action@v1
@@ -20,7 +20,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker image
-        run: docker push my-image:latest
+        run: docker push michaelkasingye/server-courier:latest
 
       - name: Deploy to server
         uses: appleboy/ssh-action@master
@@ -29,5 +29,28 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            docker pull my-image:latest
-            docker run -d -p 80:80 my-image:latest
+            docker pull michaelkasingye/server-courier:latest
+            docker run -d -p 9069:4000 michaelkasingye/server-courier:latest
+
+
+            name: Docker Image CI
+# 
+# Another way
+# 
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag michaelkasingye/server-courier-name:$(date +%s)
+
