@@ -14,8 +14,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     
-    env:
-      CACHE_RESTORE_KEYS: Linux-node-
+        env:
+         CACHE_RESTORE_KEYS: Linux-node-
       
     steps:
       - name: Checkout repository
@@ -25,6 +25,22 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
+
+
+      - name: Restore cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ env.CACHE_RESTORE_KEYS }}
+#         uses: actions/cache@v2
+#         with:
+#           path: ~/.npm
+#           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+#           restore-keys: |
+#             ${{ runner.os }}-node-
+      - name: Install dependencies
+        run: npm ci    
 
 
       - name: Checkout code
@@ -53,6 +69,12 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           key: ${{ secrets.SSH_PUBLIC_KEY }}
           script: |
+            # cd /home/sprintdevs
+            # cd Safe-Courier-server-v1
+            # git pull 
+            # npm install
+            # # npm start
+            # pm2 restart index.js
+
             docker pull michaelkasingye/server-courier:latest
             docker run -d -p 9069:4000 michaelkasingye/server-courier:latest
-            echo "End of Action"
