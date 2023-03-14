@@ -14,8 +14,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     
-        env:
-         CACHE_RESTORE_KEYS: Linux-node-
+    env:
+      CACHE_RESTORE_KEYS: Linux-node-
       
     steps:
       - name: Checkout repository
