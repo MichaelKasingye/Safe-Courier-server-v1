@@ -54,5 +54,5 @@ jobs:
           key: ${{ secrets.SSH_PUBLIC_KEY }}
           script: |
            sudo docker pull michaelkasingye/server-courier:latest
-           sudo docker run -d -p 9069:4000 michaelkasingye/server-courier:latest
+           sudo docker run -d -p 9079:4000 michaelkasingye/server-courier:latest
            echo "End of Action"
