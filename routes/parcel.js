@@ -5,6 +5,19 @@ const router = express.Router();
 let parcels = [
   {
     isCancelled: false,
+    id: "Z3",
+    user: {
+        id: "Z4QW",
+        name: "Zulu John Mark",
+        email: "zulu@gmail.com"
+    },
+    parcelName: "2kg of salt",
+    pickUp: "Mbuya",
+    destination: "Seta",
+    status: "openeddsdsd",
+  },
+  {
+    isCancelled: false,
     id: "K3",
     user: {
         id: "K4QW",
