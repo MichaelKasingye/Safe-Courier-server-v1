@@ -53,6 +53,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           key: ${{ secrets.SSH_PUBLIC_KEY }}
           script: |
+           sudo systemctl restart docker
            sudo docker pull michaelkasingye/server-courier:latest
            sudo docker run -d -p 4000:4000 michaelkasingye/server-courier:latest
            echo "End of Action"
